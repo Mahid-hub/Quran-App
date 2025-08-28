@@ -1,10 +1,10 @@
-function PageFooter() {
+function PageFooter(props) {
   return (
-    <footer className="border-t border-gray-700 bg-[#1f2125] text-gray-300 px-6 py-12">
+    <footer className={`border-t border-gray-700 ${props.bgClr} ${props.textClr} px-6 py-12`}>
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
         <div>
-          <h2 className="text-xl font-bold text-white">Quran.com</h2>
+          <h2 className={`text-xl font-bold ${props.textClr}`}>Quran.com</h2>
           <p className="mt-4 text-sm leading-relaxed">
             <span className="font-bold text-lg">
               Read, Listen, Search, and Reflect on the Quran
@@ -34,16 +34,11 @@ function PageFooter() {
         <div className="grid grid-cols-2 gap-10">
           {/* Navigation */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-4">Navigate</h3>
+            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>Navigate</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="hover:underline">
                   Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Quran Radio
                 </a>
               </li>
               <li>
@@ -81,7 +76,7 @@ function PageFooter() {
 
           {/* Popular Links */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-4">Popular Links</h3>
+            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>Popular Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="hover:underline">
@@ -124,7 +119,7 @@ function PageFooter() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+      <div className={`border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm ${props.textClr} max-w-[1440px] mx-auto`}>
         {/* Left links */}
         <div className="space-x-5 mb-3 md:mb-0">
           <a href="#" className="hover:underline">
@@ -158,9 +153,7 @@ function PageFooter() {
               <i class="fa-duotone fa-solid fa-circle-moon"></i>Dark
             </span>
           </button>
-          <button
-            className="bg-gray-800 px-3 py-1.5 rounded-md flex items-center space-x-2 hover:bg-gray-700"
-          >
+          <button className="bg-gray-800 px-3 py-1.5 rounded-md flex items-center space-x-2 hover:bg-gray-700">
             <span>
               {" "}
               <i class="fa-solid fa-globe"></i>English

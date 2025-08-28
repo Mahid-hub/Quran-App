@@ -42,7 +42,7 @@ function App() {
       </div>
       {/* footer  */}
       <div>
-        <PageFooter />
+        <PageFooter bgClr="bg-[#1f2125]"  textClr="text-white" />
       </div>
     </>
   );
