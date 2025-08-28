@@ -2,24 +2,13 @@ import React from "react";
 import Button from "./components/CustomButtons.jsx";
 import NavBar from "./components/Navbar.jsx";
 import InputField from "./components/InputField.jsx";
-import SurahCard from "./components/SurahCard.jsx";
+import Surah from "./components/Surah.jsx";
+import PageFooter from "./components/PageFooter.jsx";
 
 function App() {
   return (
     <>
-      <div className="prose bg-gray-500 p-6 space-x-4">
-        <Button
-          varient="border"
-          click={() => alert("Clicked!")}
-          text="Navigate Quran"
-        />
-        <Button
-          varient="unborder"
-          click={() => alert("Clicked!")}
-          text="Non-Border"
-        />
-      </div>
-
+      {/* Navbar */}
       <div>
         <NavBar
           title="Quran.com"
@@ -28,33 +17,32 @@ function App() {
           icons={["fa-globe", "fa-gear", "fa-magnifying-glass"]}
         />
       </div>
-
-      <div>
+      {/* input field */}
+      <div className="bg-black text-white flex flex-col justify-center items-center">
+        <h1 className="text-center text-5xl font-bold py-8">Quran.com</h1>
         <InputField
           placeHolder="Search the Quran..."
-          bgClr="bg-[#2c3237]"
-          placeholderClr="text-slate-200"
-          textClr="text-slate-400"
+          bgClr="bg-[#495057]"
+          placeholderClr="placeholder-white"
+          textClr="text-white"
         />
-      </div>
-
-      <div className="p-2 bg-[#1f2125] mx-auto max-w-[1440px]">
-        <a className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-          <SurahCard
-            number={96}
-            name="Al-'Alaq"
-            meaning="The Clot"
-            nameArabic="ٱلْعَلَق"
-            ayahs={19}
-            bg="bg-[#1f2125]"
-            text="text-white"
-            border="border-gray-700"
-            hoverBorder="hover:border-[#2ca4ab]"
-            hoverAccent="group-hover:text-[#2ca4ab]"
-            diamondBg="bg-[#2c3237]"
-            diamondHover="group-hover:bg-[#2ca4ab]"
+        <div className="mt-6 mb-10">
+          <Button
+            bgClr="bg-[#1f2125]"
+            textClr="text-white"
+            varient="border"
+            click={() => alert("Button Clicked!")}
+            text="Navigate Quran"
           />
-        </a>
+        </div>
+      </div>
+      {/* surah card  */}
+      <div>
+        <Surah />
+      </div>
+      {/* footer  */}
+      <div>
+        <PageFooter />
       </div>
     </>
   );

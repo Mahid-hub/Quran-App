@@ -4,7 +4,7 @@ function Button(props) {
   const baseStyle = "px-4 py-2 rounded-lg font-semibold";
 
   const varients = {
-    border: "rounded-xl font-semibold bg-[#1f2125] text-white h-10 w-40",
+    border: `rounded-xl font-semibold ${props.bgClr} ${props.textClr} h-10 w-40 hover:underline`,
     unborder:
       "rounded-xl font-semibold bg-transparent text-white underline h-10 w-40 hover:text-[#444]",
   };

@@ -12,7 +12,7 @@ function InputField(props) {
           placeholder={props.placeHolder}
           className={`flex-grow bg-transparent outline-none ${props.textClr} ${props.placeholderClr} text-sm sm:text-base`}
         />
-        <i className={`fa-solid fa-microphone text-gray-400`}></i>
+        <i className="fa-solid fa-microphone cursor-pointer text-white hover:bg-slate-500 hover:rounded-full hover:p-1"></i>
       </div>
     </>
   );
