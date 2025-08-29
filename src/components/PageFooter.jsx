@@ -1,6 +1,11 @@
+import React from "react";
+import Button from "./CustomButtons";
+
 function PageFooter(props) {
   return (
-    <footer className={`border-t border-gray-700 ${props.bgClr} ${props.textClr} px-6 py-12`}>
+    <footer
+      className={`border-t border-gray-700 ${props.bgClr} ${props.textClr} px-6 py-12`}
+    >
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
         <div>
@@ -34,7 +39,9 @@ function PageFooter(props) {
         <div className="grid grid-cols-2 gap-10">
           {/* Navigation */}
           <div>
-            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>Navigate</h3>
+            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>
+              Navigate
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="hover:underline">
@@ -76,7 +83,9 @@ function PageFooter(props) {
 
           {/* Popular Links */}
           <div>
-            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>Popular Links</h3>
+            <h3 className={`text-xl font-bold ${props.textClr} mb-4`}>
+              Popular Links
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="hover:underline">
@@ -119,7 +128,9 @@ function PageFooter(props) {
       </div>
 
       {/* Bottom Bar */}
-      <div className={`border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm ${props.textClr} max-w-[1440px] mx-auto`}>
+      <div
+        className={`border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm ${props.textClr} max-w-[1440px] mx-auto`}
+      >
         {/* Left links */}
         <div className="space-x-5 mb-3 md:mb-0">
           <a href="#" className="hover:underline">
@@ -144,21 +155,25 @@ function PageFooter(props) {
 
         {/* Right buttons */}
         <div className="flex space-x-3">
-          <button
-            aria-label="Toggle theme"
-            className="bg-gray-800 px-3 py-1.5 rounded-md flex items-center space-x-2 hover:bg-gray-700"
-          >
-            <span>
-              {" "}
-              <i class="fa-duotone fa-solid fa-circle-moon"></i>Dark
-            </span>
-          </button>
-          <button className="bg-gray-800 px-3 py-1.5 rounded-md flex items-center space-x-2 hover:bg-gray-700">
-            <span>
-              {" "}
-              <i class="fa-solid fa-globe"></i>English
-            </span>
-          </button>
+          <Button
+            bgClr={
+              props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
+            }
+            textClr="text-white"
+            varient="border"
+            click={() => alert("Button Clicked!")}
+            text="Theme"
+          />
+
+          <Button
+            bgClr={
+              props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
+            }
+            textClr="text-white"
+            varient="border"
+            click={() => alert("Button Clicked!")}
+            text="Language"
+          />
         </div>
       </div>
     </footer>
