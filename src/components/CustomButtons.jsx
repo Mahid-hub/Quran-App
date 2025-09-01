@@ -6,7 +6,7 @@ function Button(props) {
   const varients = {
     border: `rounded-xl font-semibold ${props.bgClr} ${props.textClr} ${props.height} ${props.width} hover:underline`,
     unborder:
-      "rounded-xl font-semibold bg-transparent text-white underline ${props.height} ${props.width} hover:text-[#444]",
+      "rounded-xl font-semibold bg-transparent text-white underline ${props.height} ${props.width} hover:text-[#8f8f8f]",
   };
   return (
     <>
