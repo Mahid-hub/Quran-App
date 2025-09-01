@@ -1,20 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "./CustomButtons";
 
 function PageFooter(props) {
-  const [isDark, setIsDark] = useState(true);
-
-  // Toggle theme handler
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark");
-  };
   return (
-    <footer
-      className={`border-t border-gray-700 ${
-        isDark ? "bg-[#1f2125] text-white" : "bg-white text-black"
-      } px-6 py-12`}
-    >
+    <footer className={`border-t border-gray-700 px-6 py-12 ${props.bgClr} ${props.textClr}`}>
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
         <div>
@@ -133,9 +122,7 @@ function PageFooter(props) {
       </div>
 
       {/* Bottom Bar */}
-      <div
-        className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm max-w-[1440px] mx-auto"
-      >
+      <div className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm max-w-[1440px] mx-auto">
         {/* Left links */}
         <div className="space-x-5 mb-3 md:mb-0">
           <a href="#" className="hover:underline">
@@ -161,15 +148,15 @@ function PageFooter(props) {
         {/* Right buttons */}
         <div className="flex space-x-3">
           <Button
-            // bgClr={
-            //   props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
-            // }
-            bgClr={isDark ? "bg-gray-800" : "bg-[#1f2125]"}
+            bgClr={
+              props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
+            }
+            // bgClr={isDark ? "bg-gray-800" : "bg-[#1f2125]"}
             textClr="text-white"
             varient="border"
-            click={toggleTheme}
-            // text="Theme"
-            text={isDark ? "Light Mode" : "Dark Mode"}
+            click={() => alert("Button Clicked!")}
+            text="Theme"
+            // text={isDark ? "Light Mode" : "Dark Mode"}
           />
 
           <Button
