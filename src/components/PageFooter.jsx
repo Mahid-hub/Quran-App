@@ -3,7 +3,9 @@ import Button from "./CustomButtons";
 
 function PageFooter(props) {
   return (
-    <footer className={`border-t border-gray-700 px-6 py-12 ${props.bgClr} ${props.textClr}`}>
+    <footer
+      className={`border-t border-gray-700 px-6 py-12 ${props.bgClr} ${props.textClr}`}
+    >
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
         <div>

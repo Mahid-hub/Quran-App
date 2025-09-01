@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "./components/CustomButtons.jsx";
 import NavBar from "./components/Navbar.jsx";
 import InputField from "./components/InputField.jsx";
-import Surah from "./components/Surah.jsx";
 import PageFooter from "./components/PageFooter.jsx";
 import ReadingCard from "./components/ReadingCard.jsx";
 import SJRbutton from "./components/SRJbutton.jsx";
@@ -101,10 +100,6 @@ function App() {
       {/* SRJ Button  */}
       <div>
         <SJRbutton bgClr="bg-[#1f2125]" textClr="text-white" />
-      </div>
-      {/* surah card  */}
-      <div>
-        <Surah />
       </div>
       {/* footer  */}
       <div>
