@@ -4,7 +4,7 @@ function InputField(props) {
   return (
     <>
       <div
-        className={`flex items-center rounded-full px-4 py-3 w-full max-w-2xl mx-auto ${props.bgClr}`}
+        className={`flex items-center rounded-full px-4 py-3 w-[85%] max-w-2xl mx-auto ${props.bgClr}`}
       >
         <i className={`fa-solid fa-magnifying-glass text-gray-400 mr-3`}></i>
         <input

@@ -4,24 +4,24 @@ function SJRbutton(props) {
   return (
     <div>
       <div className={`${props.bgClr} py-4 px-4`}>
-        <div className="flex flex-row sm:space-x-8 space-y-4 sm:space-y-0">
+        <div className="flex flex-row space-x-8 max-w-[1440px] mx-auto">
           {/* Surah Button */}
           <button
-            className={`text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
+            className={`text-sm md:text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
           >
             Surah
           </button>
 
           {/* Juz Button */}
           <button
-            className={`text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
+            className={`text-sm md:text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
           >
             Juz
           </button>
 
           {/* Revelation Order Button */}
           <button
-            className={`text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
+            className={`text-sm md:text-lg font-semibold ${props.textClr} focus:underline focus:underline-offset-4`}
           >
             Revelation Order
           </button>

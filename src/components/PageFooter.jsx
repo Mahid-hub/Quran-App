@@ -18,7 +18,7 @@ function PageFooter(props) {
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
         <div>
-          <h2 className="text-xl font-bold">Quran.com</h2>
+          <h2 className="text-2xl font-extrabold">Quran.com</h2>
           <p className="mt-4 text-sm leading-relaxed">
             <span className="font-bold text-lg">
               Read, Listen, Search, and Reflect on the Quran
