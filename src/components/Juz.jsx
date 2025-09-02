@@ -8,17 +8,12 @@ function Juz() {
       <SurahCard
         key={i} // Always give a key when rendering lists
         number={i + 1}
-        name="Al-'Alaq"
+        name="Juz"
         meaning="The Clot"
         nameArabic="ٱلْعَلَق"
         ayahs={19}
         bg="bg-[#1f2125]"
         text="text-white"
-        border="border-gray-700"
-        hoverBorder="hover:border-[#2ca4ab]"
-        hoverAccent="group-hover:text-[#2ca4ab]"
-        diamondBg="bg-[#343a40]"
-        diamondHover="group-hover:bg-[#2ca4ab]"
       />
     );
   }

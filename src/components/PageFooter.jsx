@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./CustomButtons";
+import Button from "./Button";
 
-function PageFooter(props) {
+function PageFooter({ bgClr, textClr }) {
   return (
     <footer
-      className={`border-t border-gray-700 px-6 py-12 ${props.bgClr} ${props.textClr}`}
+      className={`border-t border-gray-700 px-6 py-12 ${bgClr} ${textClr}`}
     >
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Section */}
@@ -27,7 +27,7 @@ function PageFooter(props) {
             <a
               href="https://quran.foundation"
               target="_blank"
-              className="text-blue-400 underline hover:text-blue-300"
+              className="text-blue-500 underline hover:text-blue-400"
             >
               Quran.Foundation
             </a>
@@ -36,46 +36,27 @@ function PageFooter(props) {
           </p>
         </div>
 
+        {/* Right Section */}
         <div className="grid grid-cols-2 gap-10">
           {/* Navigation */}
           <div>
             <h3 className="text-xl font-bold mb-4">Navigate</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:underline">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Reciters
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Developers
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Product Updates
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Feedback
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Help
-                </a>
-              </li>
+              {[
+                "Home",
+                "Reciters",
+                "About Us",
+                "Developers",
+                "Product Updates",
+                "Feedback",
+                "Help",
+              ].map((item, idx) => (
+                <li key={idx}>
+                  <a href="#" className="hover:underline">
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -83,41 +64,21 @@ function PageFooter(props) {
           <div>
             <h3 className="text-xl font-bold mb-4">Popular Links</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:underline">
-                  Ayatul Kursi
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Yaseen
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Al Mulk
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Ar-Rahman
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Al Waqi'ah
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Al Kahf
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Al Muzzammil
-                </a>
-              </li>
+              {[
+                "Ayatul Kursi",
+                "Yaseen",
+                "Al Mulk",
+                "Ar-Rahman",
+                "Al Waqi'ah",
+                "Al Kahf",
+                "Al Muzzammil",
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <a href="#" className="hover:underline">
+                    {link}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -127,21 +88,17 @@ function PageFooter(props) {
       <div className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm max-w-[1440px] mx-auto">
         {/* Left links */}
         <div className="space-x-5 mb-3 md:mb-0">
-          <a href="#" className="hover:underline">
-            Sitemap
-          </a>
-          <a href="#" className="hover:underline">
-            Privacy
-          </a>
-          <a href="#" className="hover:underline">
-            Terms and Conditions
-          </a>
+          {["Sitemap", "Privacy", "Terms and Conditions"].map((link, idx) => (
+            <a key={idx} href="#" className="hover:underline">
+              {link}
+            </a>
+          ))}
         </div>
 
         {/* Center copyright */}
         <p className="mb-3 md:mb-0">
-          © 2025{" "}
-          <a href="#" className="text-blue-400 hover:text-blue-300">
+          &copy; 2025{" "}
+          <a href="#" className="text-blue-500 hover:text-blue-400">
             Quran.com
           </a>
           . All Rights Reserved
@@ -150,24 +107,18 @@ function PageFooter(props) {
         {/* Right buttons */}
         <div className="flex space-x-3">
           <Button
-            bgClr={
-              props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
-            }
-            // bgClr={isDark ? "bg-gray-800" : "bg-[#1f2125]"}
+            bgClr={bgClr === "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"}
             textClr="text-white"
             varient="border"
-            click={() => alert("Button Clicked!")}
+            click={() => alert("Theme button clicked!")}
             text="Theme"
-            // text={isDark ? "Light Mode" : "Dark Mode"}
           />
 
           <Button
-            bgClr={
-              props.bgClr == "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"
-            }
+            bgClr={bgClr === "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"}
             textClr="text-white"
             varient="border"
-            click={() => alert("Button Clicked!")}
+            click={() => alert("Language button clicked!")}
             text="Language"
           />
         </div>

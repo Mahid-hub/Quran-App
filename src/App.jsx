@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Button from "./components/CustomButtons.jsx";
+import React, { useState } from "react";
+import Button from "./components/Button.jsx";
 import NavBar from "./components/Navbar.jsx";
 import InputField from "./components/InputField.jsx";
 import PageFooter from "./components/PageFooter.jsx";
@@ -8,6 +8,7 @@ import SJRbutton from "./components/SRJbutton.jsx";
 import QuranInYear from "./components/QuranInYear.jsx";
 
 function App() {
+  const [search, setSearch] = useState("");
   return (
     <>
       {/* Navbar */}
@@ -17,6 +18,15 @@ function App() {
           bgClr="bg-[#1f2125]"
           textClr="text-white"
           icons={["fa-globe", "fa-gear", "fa-magnifying-glass"]}
+          onIconClick={(icon, index) => {
+            if (icon === "fa-globe") {
+              alert("Switch Language");
+            } else if (icon === "fa-gear") {
+              alert("Open Settings");
+            } else if (icon === "fa-magnifying-glass") {
+              alert("Search something");
+            }
+          }}
         />
       </div>
       {/* input field */}
@@ -25,10 +35,15 @@ function App() {
           Quran.com
         </h1>
         <InputField
-          placeHolder="Search the Quran..."
-          bgClr="bg-[#495057]"
-          placeholderClr="placeholder-white"
+          bgClr="bg-[#1f2125]"
           textClr="text-white"
+          placeholderClr="placeholder:text-gray-400"
+          placeHolder="Search the Surah..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            console.log(search);
+          }}
         />
         <div className="mt-6 mb-10">
           <Button
