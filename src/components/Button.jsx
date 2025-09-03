@@ -14,7 +14,7 @@ function Button({
 
   const varients = {
     border: `rounded-xl font-semibold ${bgClr} ${textClr} ${height} ${width} hover:underline`,
-    unborder: `rounded-xl font-semibold bg-transparent text-white underline ${height} ${width} hover:text-[#8f8f8f]`,
+    unborder: `rounded-xl font-semibold bg-transparent ${textClr} underline ${height} ${width} hover:text-[#8f8f8f]`,
   };
 
   return (

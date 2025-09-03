@@ -1,53 +1,51 @@
 import React, { useState, useEffect } from "react";
 import SurahCard from "./SurahCard";
 
-function JuzList() {
+function Juz({ bgClr, textClr }) {
   const [juzs, setJuzs] = useState([]);
 
   useEffect(() => {
-    async function fetchJuzData() {
-      const promises = [];
-      for (let i = 0; i < 30; i++) {
-        promises.push(
-          fetch(`https://api.alquran.cloud/v1/juz/${i + 1}/quran-uthmani`)
-        );
-      }
+    let results = [];
+    function fetchJuz(i) {
+      if (i > 30) return; // stop after Juz 30
 
-      const responses = await Promise.all(promises);
-      const data = await Promise.all(responses.map((res) => res.json()));
+      setTimeout(() => {
+        fetch(`https://api.alquran.cloud/v1/juz/${i}/quran-uthmani`)
+          .then((res) => res.json())
+          .then((data) => {
+            const surahs = data.data.surahs
+              ? Object.values(data.data.surahs).map((s) => ({
+                  number: s.number,
+                  name: s.englishName,
+                  meaning: s.englishNameTranslation,
+                  nameArabic: s.name,
+                }))
+              : [];
 
-      const formatted = data.map((item, i) => ({
-        juzNumber: i + 1,
-        surahs: item.data.surahs
-          ? Object.values(item.data.surahs).map((s) => ({
-              number: s.number,
-              name: s.englishName,
-              meaning: s.englishNameTranslation,
-              nameArabic: s.name,
-              ayahs: s.ayahs,
-            }))
-          : [],
-      }));
-
-      setJuzs(formatted);
+            results.push({ juzNumber: i, surahs });
+            setJuzs([...results]); // update state (append new juz)
+            fetchJuz(i + 1); // fetch next Juz
+          })
+          .catch((err) => {
+            console.error(`Failed to fetch Juz ${i}:`, err);
+            fetchJuz(i + 1); // continue even if one fails
+          });
+      }, 200); // small delay to avoid rate-limit
     }
-
-    fetchJuzData();
+    fetchJuz(1); // Start with Juz 1
   }, []);
 
   return (
-    <div className="bg-[#1f2125] p-4">
+    <div className={`${bgClr} ${textClr} p-4`}>
       <div className="grid grid-row-1 md:grid-row-2 lg:grid-row-3 gap-4 max-w-[1440px] mx-auto">
         {juzs.map((juz) => (
           <div
             key={juz.juzNumber}
-            className="bg-[#2a2d31] h-fit rounded-md p-2 sm:p-6"
+            className={`${bgClr} h-fit rounded-md p-2 sm:p-6`}
           >
             <div className="flex justify-between items-center border-b border-gray-600 mb-5">
-              <h2 className="text-lg font-semibold text-white">
-                Juz {juz.juzNumber}
-              </h2>
-              <a href="#" className="text-sm text-white hover:underline">
+              <h2 className="text-lg font-semibold">Juz {juz.juzNumber}</h2>
+              <a href="#" className="text-sm hover:underline">
                 Read Juz
               </a>
             </div>
@@ -60,9 +58,9 @@ function JuzList() {
                   name={surah.name}
                   meaning={surah.meaning}
                   nameArabic={surah.nameArabic}
-                  ayahs={surah.ayahs}
-                  bg="bg-[#1f2125]"
-                  text="text-white"
+                  bg={bgClr}
+                  text={textClr}
+                  click={() => console.log(surah)}
                 />
               ))}
             </div>
@@ -73,4 +71,4 @@ function JuzList() {
   );
 }
 
-export default JuzList;
+export default Juz;

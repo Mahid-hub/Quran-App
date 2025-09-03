@@ -5,7 +5,7 @@ function QuranInYear({ bgClr, textClr, todayAyah, Translation, Refrence }) {
   return (
     <div
       className={`mx-auto rounded-xl px-4 py-4 text-base md:text-xl ${bgClr} ${textClr}`}
-      style={{ boxShadow: "0 12px 40px rgba(0, 0, 0, 0.8)" }}
+      style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
     >
       <p className="text-right">{todayAyah}</p>
 
@@ -16,9 +16,9 @@ function QuranInYear({ bgClr, textClr, todayAyah, Translation, Refrence }) {
       <div className="flex justify-end">
         <Button
           text="This Week’s Reading >"
-          varient="border"
+          varient="unborder"
           bgClr="bg-transparent"
-          textClr="text-white"
+          textClr="text-black dark:text-white"
           click={() => (window.location.href = "#")}
           className="text-sm"
         />

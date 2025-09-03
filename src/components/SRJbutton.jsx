@@ -9,8 +9,8 @@ function SJRbutton({ bgClr, textClr }) {
 
   return (
     <div>
-      <div className={`${bgClr} py-4 px-4`}>
-        <div className="flex flex-row space-x-8 max-w-[1440px] mx-auto">
+      <div className={`${bgClr} p-4`}>
+        <div className="flex flex-row space-x-5 max-w-[1440px] mx-auto">
           {/* Surah Button */}
           <button
             className={`${defaultStyle} ${
@@ -45,9 +45,9 @@ function SJRbutton({ bgClr, textClr }) {
       </div>
 
       <div>
-        {activeView === "surah" && <Surah />}
-        {activeView === "juz" && <Juz />}
-        {activeView === "revelation" && <RevelationOrder />}
+        {activeView === "surah" && <Surah bgClr={bgClr} textClr={textClr} />}
+        {activeView === "juz" && <Juz bgClr={bgClr} textClr={textClr} />}
+        {activeView === "revelation" && <RevelationOrder bgClr={bgClr} textClr={textClr} />}
       </div>
     </div>
   );

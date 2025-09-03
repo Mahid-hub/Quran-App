@@ -8,9 +8,10 @@ function SurahCard({
   ayahs,
   bg,
   text,
-  border = "border-gray-700",
-  hoverBorder = "hover:border-[#2ca4ab]",
-  diamondBg = "bg-[#343a40]",
+  click,
+  border = "dark:border-gray-700 border-gray-200",
+  hoverBorder = "dark:hover:border-[#2ca4ab] hover:border-[#2ca4aa]",
+  diamondBg = "dark:bg-[#343a40] bg-gray-200",
   diamondHover = "group-hover:bg-[#2ca4ab]",
   hoverAccent = "group-hover:text-[#2ca4ab]",
   className,
@@ -18,6 +19,7 @@ function SurahCard({
   return (
     <div
       className={`group ${bg} ${text} border ${border} ${hoverBorder} rounded-md p-4 flex items-center justify-between ${className}`}
+      onClick={click}
     >
       {/* Left: number + name */}
       <div className="flex items-center gap-4">

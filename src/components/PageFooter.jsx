@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 
-function PageFooter({ bgClr, textClr }) {
+function PageFooter({ bgClr, textClr, darkMode }) {
   return (
     <footer
       className={`border-t border-gray-700 px-6 py-12 ${bgClr} ${textClr}`}
@@ -107,16 +107,16 @@ function PageFooter({ bgClr, textClr }) {
         {/* Right buttons */}
         <div className="flex space-x-3">
           <Button
-            bgClr={bgClr === "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"}
-            textClr="text-white"
+            bgClr="bg-black dark:bg-white"
+            textClr="text-white dark:text-black"
             varient="border"
-            click={() => alert("Theme button clicked!")}
+            click={darkMode}
             text="Theme"
           />
 
           <Button
-            bgClr={bgClr === "bg-[#1f2125]" ? "bg-gray-800" : "bg-[#1f2125]"}
-            textClr="text-white"
+            bgClr="bg-black dark:bg-white"
+            textClr="text-white dark:text-black"
             varient="border"
             click={() => alert("Language button clicked!")}
             text="Language"

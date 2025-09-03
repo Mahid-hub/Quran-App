@@ -12,7 +12,7 @@ function ReadingCard({
   return (
     <div
       className={`max-w-full lg:max-w-[50%] rounded-xl py-3 px-6 flex flex-col space-y-4 ${bgClr} ${textClr}`}
-      style={{ boxShadow: "0 12px 40px rgba(0, 0, 0, 0.8)" }}
+      style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
     >
       <h2 className="text-3xl text-right">{surahNameArabic}</h2>
       <div className="flex justify-between">
@@ -23,8 +23,8 @@ function ReadingCard({
           </span>
         </p>
         <Button
-          bgClr={bgClr === "bg-[#1f2125]" ? "bg-white" : "bg-[#1f2125]"}
-          textClr={textClr === "text-[#1f2125]" ? "text-white" : "text-black"}
+          bgClr="bg-black dark:bg-white"
+          textClr="text-white dark:text-black"
           varient="border"
           click={() => alert("Button Clicked!")}
           text="Begin"
