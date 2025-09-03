@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SurahCard from "./SurahCard";
 
-function Surah() {
+function RevelationOrder() {
   const [surahs, setSurahs] = useState([]);
   useEffect(() => {
     fetch("http://api.alquran.cloud/v1/surah")
@@ -32,4 +32,4 @@ function Surah() {
   );
 }
 
-export default Surah;
+export default RevelationOrder;

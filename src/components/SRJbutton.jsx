@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Juz from "./Juz";
 import Surah from "./Surah";
+import RevelationOrder from "./RevelationOrder";
 
 function SJRbutton({ bgClr, textClr }) {
   const [activeView, setActiveView] = useState("surah");
@@ -46,10 +47,9 @@ function SJRbutton({ bgClr, textClr }) {
       <div>
         {activeView === "surah" && <Surah />}
         {activeView === "juz" && <Juz />}
-        {activeView === "revelation" && <Surah />}
+        {activeView === "revelation" && <RevelationOrder />}
       </div>
     </div>
   );
 }
-
 export default SJRbutton;
