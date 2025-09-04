@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Button from "./components/Button.jsx";
 import NavBar from "./components/Navbar.jsx";
 import InputField from "./components/InputField.jsx";
-import PageFooter from "./components/PageFooter.jsx";
+import Button from "./components/Button.jsx";
 import ReadingCard from "./components/ReadingCard.jsx";
-import SJRbutton from "./components/SRJbutton.jsx";
+import SJRbutton from "./components/SJButton.jsx";
 import QuranInYear from "./components/QuranInYear.jsx";
+import PageFooter from "./components/PageFooter.jsx";
+import Theme from "./components/Theme.jsx";
 
 function App() {
   const [search, setSearch] = useState("");
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  localStorage.darkMode;
-
+  const { darkMode, toggleTheme } = Theme();
   return (
     <>
       {/* Navbar */}
@@ -44,7 +34,7 @@ function App() {
 
       {/* Input Field */}
       <div className="bg-gray-200 dark:bg-black text-black dark:text-white flex flex-col justify-center items-center">
-        <h1 className="text-center text-3xl md:text-5xl font-bold py-8">
+        <h1 className="text-center text-3xl md:text-5xl font-bold py-8 select-none">
           Quran.com
         </h1>
         <InputField
@@ -104,7 +94,9 @@ function App() {
             <Button
               textClr="text-black dark:text-white"
               varient="unborder"
-              click={() => window.location.href="https://quran.com/calendar"}
+              click={() =>
+                (window.location.href = "https://quran.com/calendar")
+              }
               text={
                 <>
                   <i className="fa-solid fa-calendar-days"></i> Calendar
@@ -125,7 +117,7 @@ function App() {
         </div>
       </div>
 
-      {/* SRJ Button */}
+      {/* SJ Button */}
       <div>
         <SJRbutton
           bgClr="bg-gray-100 dark:bg-[#1f2125]"
@@ -138,7 +130,7 @@ function App() {
         <PageFooter
           bgClr="bg-gray-200 dark:bg-[#1f2125]"
           textClr="text-black dark:text-white"
-          darkMode={() => setDarkMode(!darkMode)}
+          darkMode={toggleTheme}
         />
       </div>
     </>

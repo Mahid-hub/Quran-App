@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
+import Languages from "./Languages";
 
 function PageFooter({ bgClr, textClr, darkMode }) {
+  const [language, setLanguage] = useState(false);
   return (
     <footer
       className={`border-t border-gray-700 px-6 py-12 ${bgClr} ${textClr}`}
@@ -111,16 +113,22 @@ function PageFooter({ bgClr, textClr, darkMode }) {
             textClr="text-white dark:text-black"
             varient="border"
             click={darkMode}
-            text="Theme"
+            text="Theme Change"
           />
-
-          <Button
-            bgClr="bg-black dark:bg-white"
-            textClr="text-white dark:text-black"
-            varient="border"
-            click={() => alert("Language button clicked!")}
-            text="Language"
-          />
+          <div className="relative">
+            <Button
+              bgClr="bg-black dark:bg-white"
+              textClr="text-white dark:text-black"
+              varient="border"
+              click={() => setLanguage(!language)}
+              text="Language"
+            />
+            {language && (
+              <div className="absolute bottom-full mb-2 right-0">
+                <Languages bgClr={bgClr} textClr={textClr} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </footer>

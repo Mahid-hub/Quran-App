@@ -8,10 +8,10 @@ function QuranInYear({ bgClr, textClr, todayAyah, Translation, Refrence }) {
       style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
     >
       <p className="text-right">{todayAyah}</p>
-
       <p>{Translation}</p>
-
-      <p className="text-xs md:text-sm text-[#777777]">{Refrence}</p>
+      <p className="text-xs md:text-sm leading-normal text-[#777777]">
+        {Refrence}
+      </p>
 
       <div className="flex justify-end">
         <Button

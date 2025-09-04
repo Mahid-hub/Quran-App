@@ -18,7 +18,7 @@ function SurahCard({
 }) {
   return (
     <div
-      className={`group ${bg} ${text} border ${border} ${hoverBorder} rounded-md p-4 flex items-center justify-between ${className}`}
+      className={`group ${bg} ${text} border ${border} ${hoverBorder} cursor-pointer rounded-md p-4 flex items-center justify-between ${className}`}
       onClick={click}
     >
       {/* Left: number + name */}

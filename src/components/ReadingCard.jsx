@@ -14,7 +14,7 @@ function ReadingCard({
       className={`max-w-full lg:max-w-[50%] rounded-xl py-3 px-6 flex flex-col space-y-4 ${bgClr} ${textClr}`}
       style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
     >
-      <h2 className="text-3xl text-right">{surahNameArabic}</h2>
+      <h2 className="text-3xl text-left">{surahNameArabic}</h2>
       <div className="flex justify-between">
         <p className="text-sm md:text-lg font-semibold">
           {number}. {surahNameEnglish}{" "}
