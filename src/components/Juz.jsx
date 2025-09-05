@@ -37,7 +37,7 @@ function Juz({ bgClr, textClr }) {
 
   return (
     <div className={`${bgClr} ${textClr} p-4`}>
-      <div className="grid grid-row-1 md:grid-row-2 lg:grid-row-3 gap-4 max-w-[1440px] mx-auto">
+      <div className="grid grid-row-1 md:grid-row-2 lg:grid-row-3 gap-4">
         {juzs.map((juz) => (
           <div
             key={juz.juzNumber}

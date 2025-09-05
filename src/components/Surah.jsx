@@ -14,7 +14,7 @@ function Surah({ bgClr, textClr }) {
 
   return (
     <div className={`${bgClr} min-h-screen p-6`}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-[1440px] mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {surahs.map((surah) => (
           <SurahCard
             key={surah.number} // Always give a key when rendering lists

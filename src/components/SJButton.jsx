@@ -9,7 +9,7 @@ function SJRbutton({ bgClr, textClr }) {
   return (
     <div>
       <div className={`${bgClr} p-4`}>
-        <div className="flex flex-row space-x-10 max-w-[1440px] mx-auto">
+        <div className="flex flex-row space-x-10">
           {/* Surah Button */}
           <button
             className={`${defaultStyle} ${
