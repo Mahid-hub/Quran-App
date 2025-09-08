@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "./components/Navbar.jsx";
+import NavBar from "./components/NavBar.jsx";
 import InputField from "./components/InputField.jsx";
 import Button from "./components/Button.jsx";
 import ReadingCard from "./components/ReadingCard.jsx";
