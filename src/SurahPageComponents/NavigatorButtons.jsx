@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../components/Button";
+import { useNavigate, useParams } from "react-router-dom";
 
-function NavigatorButtons({bgClr, textClr}) {
-  const [currentSurah, setCurrentSurah] = useState(1); // starting surah
+function NavigatorButtons({ bgClr, textClr }) {
+  const navigate = useNavigate();
+  const { number } = useParams();
+  const currentSurah = parseInt(number || 1);
   const totalSurahs = 114;
 
-  const goToBeginning = () => setCurrentSurah(1);
-  const goToPrevious = () => currentSurah > 1 && setCurrentSurah(currentSurah - 1);
-  const goToNext = () => currentSurah < totalSurahs && setCurrentSurah(currentSurah + 1);
+  // Scroll to the beginning of the current Surah page
+  const goToBeginning = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Navigate to previous surah (only if > 1)
+  const goToPrevious = () => {
+    if (currentSurah > 1) {
+      navigate(`/surah/${currentSurah - 1}`);
+    }
+  };
+
+  // Navigate to next surah (only if < 114)
+  const goToNext = () => {
+    if (currentSurah < totalSurahs) {
+      navigate(`/surah/${currentSurah + 1}`);
+    }
+  };
 
   return (
-    <div className={`${bgClr} flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 pb-20 p-4 border-t-[1px] border-gray-500`}>
+    <div
+      className={`${bgClr} flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 pb-20 p-4 border-t-[1px] border-gray-500`}
+    >
       {/* Beginning Button */}
       <Button
         text="Beginning of Surah"
@@ -26,7 +46,7 @@ function NavigatorButtons({bgClr, textClr}) {
       {/* Previous Button (hidden on Surah 1) */}
       {currentSurah > 1 && (
         <Button
-          text="Previous Surah"
+          text="← Previous Surah"
           varient="border"
           bgClr={bgClr}
           textClr={textClr}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SurahCard from "./SurahCard";
+import { Link } from "react-router-dom";
 
 function Juz({ bgClr, textClr }) {
   const [juzs, setJuzs] = useState([]);
@@ -52,16 +53,18 @@ function Juz({ bgClr, textClr }) {
 
             <div className="space-y-4">
               {juz.surahs.map((surah) => (
-                <SurahCard
-                  key={`${juz.juzNumber}-${surah.number}`}
-                  number={surah.number}
-                  name={surah.name}
-                  meaning={surah.meaning}
-                  nameArabic={surah.nameArabic}
-                  bg={bgClr}
-                  text={textClr}
-                  click={() => console.log(surah)}
-                />
+                <Link key={surah.number} to={`/surah/${surah.number}`}>
+                  <SurahCard
+                    key={`${juz.juzNumber}-${surah.number}`}
+                    number={surah.number}
+                    name={surah.name}
+                    meaning={surah.meaning}
+                    nameArabic={surah.nameArabic}
+                    bg={bgClr}
+                    text={textClr}
+                    click={() => console.log(surah)}
+                  />
+                </Link>
               ))}
             </div>
           </div>

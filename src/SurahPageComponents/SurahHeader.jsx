@@ -1,31 +1,26 @@
 import React, { useState, useRef } from "react";
-import { Info, Pause, Play } from "lucide-react";
+import { Info } from "lucide-react";
 
 const SurahHeader = ({
   name,
-  translation,
   translator,
   onSurahInfo,
-  onClick,
   bgClr,
   textClr,
   source,
 }) => {
-  const [playing, setPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
-  const toogleClick = () => {
+  const toggleClick = () => {
     if (!audioRef.current) {
       return;
     }
-    if (playing) {
+    if (isPlaying) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
     }
-    setPlaying(!playing);
-    if (onClick) {
-      onClick(!playing);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -33,9 +28,9 @@ const SurahHeader = ({
       <audio
         ref={audioRef}
         src={source}
-        onEnded={() => setPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
       ></audio>
-      ;<h2 className="text-3xl text-center mb-12">{name}</h2>
+      <h2 className="text-3xl text-center mb-12 font-arabic">{name}</h2>
       <div className="flex justify-around items-center">
         <div className="text-sm">
           <p className="text-gray-400">Translation by</p>
@@ -55,10 +50,10 @@ const SurahHeader = ({
             <span>Surah Info</span>
           </button>
           <button
-            onClick={toogleClick}
+            onClick={toggleClick}
             className="flex items-center space-x-2 text-[#2ca4ab] hover:bg-[#3e5354]"
           >
-            {playing ? (
+            {isPlaying ? (
               <>
                 {" "}
                 <i className="fa-solid fa-pause"></i> <span>Pause Audio</span>

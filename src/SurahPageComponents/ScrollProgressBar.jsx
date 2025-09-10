@@ -25,7 +25,7 @@ function ScrollProgressBar({ resetTrigger, bgClr }) {
   return (
     <div className={`w-full h-1 ${bgClr}`}>
       <div
-        className="h-1 bg-[#2ca4ab] transition-all duration-200"
+        className="h-1 bg-[#2ca4ab] dark:bg-white transition-all duration-200"
         style={{ width: `${progress}%` }}
       />
     </div>

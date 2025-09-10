@@ -1,24 +1,36 @@
-import React from 'react';
-import {
-  DocumentDuplicateIcon,
-  BookmarkIcon,
-  PlayIcon,
-  ChatBubbleOvalLeftIcon,
-  EllipsisVerticalIcon,
-} from '@heroicons/react/24/outline';
+import React, { useState, useRef } from "react";
 
 const Verse = ({
   verseNumber,
   arabicText,
   translation,
-  onPlay,
   onCopy,
   onBookmark,
   bgClr,
   textClr,
+  source,
 }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const toggleClick = () => {
+    if (!audioRef.current) {
+      return;
+    }
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
   return (
     <div className={`${bgClr} ${textClr} px-6 py-6`}>
+      <audio
+        ref={audioRef}
+        src={source}
+        onEnded={() => setIsPlaying(false)}
+      ></audio>
       <div className="flex items-start space-x-4 max-w-[1100px] mx-auto border-t-[1px] border-gray-500">
         {/* ICONS - LEFT SIDE */}
         <div className="flex-shrink-0">
@@ -28,7 +40,7 @@ const Verse = ({
               className="p-2 hover:text-gray-300"
               title="Copy verse"
             >
-              <DocumentDuplicateIcon className="h-5 w-5" />
+              <i class="fa-regular fa-copy"></i>
             </button>
 
             <button
@@ -36,47 +48,49 @@ const Verse = ({
               className="p-2 hover:text-gray-300"
               title="Bookmark verse"
             >
-              <BookmarkIcon className="h-5 w-5" />
+              <i class="fa-regular fa-bookmark"></i>
             </button>
 
             <button
-              onClick={() => onPlay(verseNumber)}
+              onClick={toggleClick}
               className="p-2 hover:text-gray-300"
               title="Play verse"
             >
-              <PlayIcon className="h-5 w-5" />
+              {isPlaying ? (
+                <>
+                  {" "}
+                  <i className="fa-regular fa-circle-pause"></i>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <i className="fa-regular fa-circle-play"></i>
+                </>
+              )}
             </button>
 
-            <button
-              className="p-2 hover:text-gray-300"
-              title="Comment"
-            >
-              <ChatBubbleOvalLeftIcon className="h-5 w-5" />
+            <button className="p-2 hover:text-gray-300" title="Comment">
+              <i class="fa-regular fa-message"></i>
             </button>
 
-            <button
-              className="p-2 hover:text-gray-300"
-              title="More options"
-            >
-              <EllipsisVerticalIcon className="h-5 w-5" />
+            <button className="p-2 hover:text-gray-300" title="More options">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
           </div>
         </div>
 
         {/* VERSE CONTENT */}
-        <div className="flex-1">
+        <div className="flex-1 font-arabic">
           {/* Arabic text */}
-          <div className="text-right mb-6">
+          <div className="text-right mt-3">
             <p className="text-2xl leading-relaxed mb-2">
-              {arabicText}
+              {arabicText} <span className="text-base">﴿{verseNumber}</span>
             </p>
           </div>
 
           {/* Translation */}
           <div className="text-left">
-            <p className="leading-relaxed mb-4">
-              {translation}
-            </p>
+            <p className="leading-relaxed mb-4">{translation}</p>
           </div>
         </div>
       </div>

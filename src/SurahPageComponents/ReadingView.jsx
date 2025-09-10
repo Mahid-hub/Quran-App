@@ -7,7 +7,7 @@ const ReadingView = ({ verses, bgClr, textClr }) => {
       <div className="space-y-6">
         {verses.map((verse, index) => (
           <p key={index} className="text-xl text-center leading-loose">
-            {verse}
+            {verse} <span className="text-base">{verse.verseNumber}</span>
           </p>
         ))}
       </div>
