@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Info } from "lucide-react";
 
 const SurahHeader = ({
@@ -8,6 +8,9 @@ const SurahHeader = ({
   bgClr,
   textClr,
   source,
+  id,
+  playingId,
+  setPlayingId,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -17,18 +20,29 @@ const SurahHeader = ({
     }
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
+      setPlayingId(null);
     } else {
       audioRef.current.play();
+      setIsPlaying(true);
+      setPlayingId(id);
     }
     setIsPlaying(!isPlaying);
   };
+
+  useEffect(() => {
+    if (playingId !== id && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [playingId, id]);
 
   return (
     <div className={`${bgClr} ${textClr} px-6 py-8`}>
       <audio
         ref={audioRef}
         src={source}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => setPlayingId(null)}
       ></audio>
       <h2 className="text-3xl text-center mb-12 font-arabic">{name}</h2>
       <div className="flex justify-around items-center">
