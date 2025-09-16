@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Languages from "./Languages";
+import { Link } from "react-router-dom";
 
 function PageFooter({ bgClr, textClr, darkMode }) {
   const [language, setLanguage] = useState(false);
@@ -54,9 +55,13 @@ function PageFooter({ bgClr, textClr, darkMode }) {
                 "Help",
               ].map((item, idx) => (
                 <li key={idx}>
-                  <a href="#" className="hover:underline">
+                  <Link
+                    to="/"
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="hover:underline"
+                  >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -66,21 +71,41 @@ function PageFooter({ bgClr, textClr, darkMode }) {
           <div>
             <h3 className="text-xl font-bold mb-4">Popular Links</h3>
             <ul className="space-y-2 text-sm">
-              {[
-                "Ayatul Kursi",
-                "Yaseen",
-                "Al Mulk",
-                "Ar-Rahman",
-                "Al Waqi'ah",
-                "Al Kahf",
-                "Al Muzzammil",
-              ].map((link, idx) => (
-                <li key={idx}>
-                  <a href="#" className="hover:underline">
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="/surah/2#ayah-255" className="hover:underline">
+                  Ayatul Kursi
+                </a>
+              </li>
+              <li>
+                <a href="surah/36" className="hover:underline">
+                  Yaseen
+                </a>
+              </li>
+              <li>
+                <a href="surah/67" className="hover:underline">
+                  Al-Mulk
+                </a>
+              </li>
+              <li>
+                <a href="surah/55" className="hover:underline">
+                  Ar-Rahmaan
+                </a>
+              </li>
+              <li>
+                <a href="surah/56" className="hover:underline">
+                  Al-Waqi'ah
+                </a>
+              </li>
+              <li>
+                <a href="surah/18" className="hover:underline">
+                  Al-Kahf
+                </a>
+              </li>
+              <li>
+                <a href="surah/73" className="hover:underline">
+                  Al-Muzzammil
+                </a>
+              </li>
             </ul>
           </div>
         </div>

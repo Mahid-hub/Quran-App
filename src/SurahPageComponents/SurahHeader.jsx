@@ -44,23 +44,24 @@ const SurahHeader = ({
         src={source}
         onEnded={() => setPlayingId(null)}
       ></audio>
-      <h2 className="text-3xl text-center mb-12 font-arabic">{name}</h2>
+      <h2 className="text-2xl md:text-3xl text-center mb-12 font-arabic">
+        {name}
+      </h2>
       <div className="flex justify-around items-center">
-        <div className="text-sm">
+        <div className="text-xs md:text-sm">
           <p className="text-gray-400">Translation by</p>
-          <p>
-            {translator}
-            <span className="text-[#2ca4ab] ml-1 cursor-pointer hover:underline">
-              (Change)
-            </span>
-          </p>
+
+          {translator}
+          <span className="text-[#2ca4ab] ml-1 cursor-pointer hover:underline">
+            (Change)
+          </span>
         </div>
-        <div className="flex space-x-4">
+        <div className="md:flex space-x-4 text-right text-[0.7rem]">
           <button
             onClick={onSurahInfo}
             className="flex items-center space-x-2 hover:text-gray-500"
           >
-            <Info size={20} />
+            <Info size={15} />
             <span>Surah Info</span>
           </button>
           <button

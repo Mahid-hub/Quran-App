@@ -4,8 +4,6 @@ const Verse = ({
   verseNumber,
   arabicText,
   translation,
-  onCopy,
-  onBookmark,
   bgClr,
   textClr,
   source,
@@ -15,6 +13,19 @@ const Verse = ({
   className,
   ...rest
 }) => {
+  const handleCopy = () => {
+    const textToCopy = `${arabicText}\n\n${translation}`;
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      // Show a small toast notification
+      const toast = document.createElement("div");
+      toast.textContent = "Copied to clipboard!";
+      toast.className =
+        "fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-md text-sm animate-fade";
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    });
+  };
+
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
@@ -43,10 +54,11 @@ const Verse = ({
 
   return (
     <div
-      className={`${bgClr} ${textClr} px-6 py-6 ${className || ""}`}
+      id={id}
+      className={`${bgClr} ${textClr} px-2 py-1 md:px-6 md:py-3 ${className || ""}`}
       {...rest}
     >
-      <div className={`${bgClr} ${textClr} px-6 py-6`}>
+      <div className={`${bgClr} ${textClr} px-2 md:px-6`}>
         <audio
           ref={audioRef}
           src={source}
@@ -57,19 +69,11 @@ const Verse = ({
           <div className="flex-shrink-0">
             <div className="flex flex-col space-y-4 text-gray-500">
               <button
-                onClick={() => onCopy(verseNumber)}
+                onClick={handleCopy}
                 className="p-2 hover:text-gray-300"
                 title="Copy verse"
               >
-                <i class="fa-regular fa-copy"></i>
-              </button>
-
-              <button
-                onClick={() => onBookmark(verseNumber)}
-                className="p-2 hover:text-gray-300"
-                title="Bookmark verse"
-              >
-                <i class="fa-regular fa-bookmark"></i>
+                <i className="fa-regular fa-copy"></i>
               </button>
 
               <button
@@ -90,10 +94,6 @@ const Verse = ({
                 )}
               </button>
 
-              <button className="p-2 hover:text-gray-300" title="Comment">
-                <i class="fa-regular fa-message"></i>
-              </button>
-
               <button className="p-2 hover:text-gray-300" title="More options">
                 <i class="fa-solid fa-ellipsis-vertical"></i>
               </button>
@@ -104,7 +104,7 @@ const Verse = ({
           <div className="flex-1 font-arabic">
             {/* Arabic text */}
             <div className="text-right mt-3">
-              <p className="text-2xl leading-relaxed mb-2">
+              <p className="text-base md:text-2xl leading-relaxed mb-2">
                 {arabicText} <span className="text-base">﴿{verseNumber}</span>
               </p>
             </div>

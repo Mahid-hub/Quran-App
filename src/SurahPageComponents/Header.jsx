@@ -34,15 +34,15 @@ const Header = ({
 
   return (
     <header className={`${bgClr} ${textClr} sticky top-0 z-50 shadow-md`}>
-      <div className="px-6 py-4 flex justify-between items-center">
+      <div className="px-3 md:px-6 md:py-2 flex justify-between items-center">
         {/* Surah Title (left) */}
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-sm md:text-lg font-semibold font-arabic">{title}</h1>
 
         {/* Details (right) */}
-        <p className="text-sm flex items-center space-x-1">
+        <p className="text-xs md:text-sm flex items-center space-x-1">
           <span
             className={`
-              text-sm flex items-center space-x-1
+              flex items-center space-x-1
               transition-all duration-500 ease-in-out
               ${
                 showMeta
@@ -66,7 +66,7 @@ const Header = ({
 
       {/* Scroll progress bar */}
       <ScrollProgressBar
-        bgClr="bg-teal-500 dark:bg-[#1F2125]"
+        bgClr={`${bgClr} dark:bg-[#1F2125]`}
         resetTrigger={currentSurah}
       />
     </header>

@@ -40,7 +40,7 @@ function SurahCard({
 
       {/* Right: Arabic + ayahs */}
       <div className="text-right">
-        <h3 className="text-lg">{nameArabic}</h3>
+        <h3 className="text-lg font-arabic">{nameArabic}</h3>
         <p className={`text-gray-400 text-sm ${hoverAccent}`}>{ayahs} Ayahs</p>
       </div>
     </div>

@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import NavBar from "./components/NavBar.jsx";
+import { useParams, useLocation } from "react-router-dom";
+import NavBar from "./HomePageComponents/NavBar.jsx";
 import Header from "./SurahPageComponents/Header.jsx";
 import NavigationTabs from "./SurahPageComponents/NavigationTabs.jsx";
 import SurahHeader from "./SurahPageComponents/SurahHeader.jsx";
 import Verse from "./SurahPageComponents/Verse.jsx";
-import PageFooter from "./components/PageFooter.jsx";
+import PageFooter from "./HomePageComponents/PageFooter.jsx";
 import ReadingView from "./SurahPageComponents/ReadingView.jsx";
 import NavigatorButtons from "./SurahPageComponents/NavigatorButtons.jsx";
-import Theme from "./components/Theme.jsx";
-import { tabs } from "./dummy data/datadummyData.jsx";
+import Theme from "./HomePageComponents/Theme.jsx";
+import { Languages, BookOpen } from "lucide-react";
 
 function SurahPage() {
   const { toggleTheme } = Theme();
@@ -17,6 +17,7 @@ function SurahPage() {
   const [playingId, setPlayingId] = useState(null);
   //Route
   const { number } = useParams();
+  const location = useLocation();
   const [verses, setVerses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [surahInfo, setSurahInfo] = useState(null);
@@ -25,6 +26,19 @@ function SurahPage() {
     page: null,
     hizb: null,
   });
+
+  const tabs = [
+    {
+      id: "translation",
+      name: "Translation",
+      icon: <Languages size={18} />,
+    },
+    {
+      id: "reading",
+      name: "Reading",
+      icon: <BookOpen size={18} />,
+    },
+  ];
 
   function getGlobalAyahNumber(surah, ayah) {
     const ayahCounts = [
@@ -159,10 +173,11 @@ function SurahPage() {
       verseEls.forEach((el) => observer.observe(el));
 
       // Initialize immediately to first verse in view (or first verse)
-      const initEl = Array.from(verseEls).find((el) => {
-        const r = el.getBoundingClientRect();
-        return r.bottom > 0; // at least partially visible
-      }) || verseEls[0];
+      const initEl =
+        Array.from(verseEls).find((el) => {
+          const r = el.getBoundingClientRect();
+          return r.bottom > 0; // at least partially visible
+        }) || verseEls[0];
       if (initEl) {
         const { juz, page, hizb } = initEl.dataset;
         setCurrentMeta({
@@ -180,6 +195,40 @@ function SurahPage() {
       cleanup();
     };
   }, [verses, activeTab]);
+
+  // Scroll to a specific ayah if URL hash is present
+  useEffect(() => {
+    if (!verses.length) return;
+
+    const hash = location.hash || "";
+    if (!hash) return;
+
+    const ayahMatch = hash.match(/^#ayah-(\d+)$/);
+    const globalMatch = hash.match(/^#verse-(\d+)$/);
+
+    let targetId = null;
+    if (ayahMatch) {
+      const ayahInSurah = parseInt(ayahMatch[1], 10);
+      if (!Number.isNaN(ayahInSurah)) {
+        const globalAyah = getGlobalAyahNumber(
+          parseInt(number, 10),
+          ayahInSurah
+        );
+        targetId = `verse-${globalAyah}`;
+      }
+    } else if (globalMatch) {
+      targetId = `verse-${parseInt(globalMatch[1], 10)}`;
+    }
+
+    if (targetId) {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+    }
+  }, [verses, location.hash, number]);
 
   // Handlers
   const handleTabChange = (tabId) => setActiveTab(tabId);
@@ -229,7 +278,7 @@ function SurahPage() {
               <SurahHeader
                 bgClr="bg-gray-100 dark:bg-[#1F2125]"
                 textClr="text-black dark:text-white"
-                name={surahInfo.nameArabic}
+                name={surahInfo.name}
                 translation={surahInfo.translation}
                 translator={surahInfo.translator}
                 onSurahInfo={() => console.log("Show surah info")}
@@ -241,38 +290,33 @@ function SurahPage() {
             )}
 
             <div>
-              {activeTab === "translation"
-                ? verses.map((verse) => (
-                    <Verse
-                      key={verse.number}
-                      className="verse-item"
-                      data-juz={verse.juz}
-                      data-page={verse.page}
-                      data-hizb={verse.hizb}
-                      bgClr="bg-gray-100 dark:bg-[#1f2125]"
-                      textClr="text-black dark:text-white"
-                      verseNumber={verse.number}
-                      arabicText={verse.arabic}
-                      translation={verse.translation}
-                      source={verse.audioUrl}
-                      id={`verse-${verse.globalNumber}`}
-                      playingId={playingId}
-                      setPlayingId={setPlayingId}
-                      onCopy={() => console.log(`Copy verse ${verse.number}`)}
-                      onBookmark={() =>
-                        console.log(`Bookmark verse ${verse.number}`)
-                      }
-                    />
-                  ))
-                : activeTab === "reading"
-                ? (
-                    <ReadingView
-                      bgClr="bg-gray-100 dark:bg-[#1f2125]"
-                      textClr="text-black dark:text-white"
-                      verses={verses}
-                    />
-                  )
-                : null}
+              {activeTab === "translation" ? (
+                verses.map((verse) => (
+                  <Verse
+                    key={verse.number}
+                    className="verse-item"
+                    data-juz={verse.juz}
+                    data-page={verse.page}
+                    data-hizb={verse.hizb}
+                    bgClr="bg-gray-100 dark:bg-[#1f2125]"
+                    textClr="text-black dark:text-white"
+                    verseNumber={verse.number}
+                    arabicText={verse.arabic}
+                    translation={verse.translation}
+                    source={verse.audioUrl}
+                    id={`verse-${verse.globalNumber}`}
+                    playingId={playingId}
+                    setPlayingId={setPlayingId}
+                    onCopy={() => console.log(`Copy verse ${verse.number}`)}
+                  />
+                ))
+              ) : activeTab === "reading" ? (
+                <ReadingView
+                  bgClr="bg-gray-100 dark:bg-[#1f2125]"
+                  textClr="text-black dark:text-white"
+                  verses={verses}
+                />
+              ) : null}
             </div>
             <div>
               <NavigatorButtons
