@@ -1,17 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import NavBar from "./components/NavBar.jsx";
-import InputField from "./components/InputField.jsx";
-import Button from "./components/Button.jsx";
-import ReadingCard from "./components/ReadingCard.jsx";
-import SJRbutton from "./components/SJButton.jsx";
-import QuranInYear from "./components/QuranInYear.jsx";
-import PageFooter from "./components/PageFooter.jsx";
-import Theme from "./components/Theme.jsx";
+import NavBar from "./HomePageComponents/NavBar.jsx";
+import InputField from "./HomePageComponents/InputField.jsx";
+import Button from "./HomePageComponents/Button.jsx";
+import ReadingCard from "./HomePageComponents/ReadingCard.jsx";
+import SJRbutton from "./HomePageComponents/SJButton.jsx";
+import QuranInYear from "./HomePageComponents/QuranInYear.jsx";
+import PageFooter from "./HomePageComponents/PageFooter.jsx";
+import Theme from "./HomePageComponents/Theme.jsx";
 
 function Home() {
   const [search, setSearch] = useState("");
   const { toggleTheme } = Theme();
+  const [surahs, setSurahs] = useState([]);
+  const [dailyAyah, setDailyAyah] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSurahs = async () => {
+      try {
+        const res = await fetch("https://api.alquran.cloud/v1/surah");
+        const data = await res.json();
+        setSurahs(data.data);
+      } catch (err) {
+        console.error("Failed to fetch surahs:", err);
+      }
+    };
+    fetchSurahs();
+  }, []);
+
+  // Filter surahs by search input
+  const filtered = surahs.filter((s) =>
+    s.englishName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleSelect = (surah) => {
+    navigate(`/surah/${surah.number}`);
+  };
+
+  // Daily random ayah (stored in localStorage)
+  useEffect(() => {
+    const fetchDailyAyah = async () => {
+      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const saved = JSON.parse(localStorage.getItem("dailyAyah"));
+
+      if (saved && saved.date === today) {
+        setDailyAyah(saved.data);
+        return;
+      }
+
+      try {
+        const randomAyahNum = Math.floor(Math.random() * 6236) + 1;
+        const res = await fetch(
+          `https://api.alquran.cloud/v1/ayah/${randomAyahNum}/editions/quran-uthmani,en.asad`
+        );
+        const data = await res.json();
+
+        const arabic = data.data[0].text;
+        const english = data.data[1].text;
+        const surahName = data.data[0].surah.englishName;
+        const surahNum = data.data[0].surah.number;
+        const ayahNum = data.data[0].numberInSurah;
+
+        const ayahObj = {
+          arabic,
+          english,
+          reference: `— ${surahName} (${surahNum}:${ayahNum})`,
+        };
+
+        setDailyAyah(ayahObj);
+        localStorage.setItem(
+          "dailyAyah",
+          JSON.stringify({ date: today, data: ayahObj })
+        );
+      } catch (err) {
+        console.error("Failed to fetch daily ayah:", err);
+      }
+    };
+
+    fetchDailyAyah();
+  }, []);
+
   return (
     <>
       <div className="bg-gray-100 dark:bg-[#1f2125]">
@@ -48,12 +118,32 @@ function Home() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+
+            {/* Search Results Dropdown */}
+            {search && (
+              <ul className="absolute top-[14rem] bg-white dark:bg-[#1f2125] w-[85%] max-w-2xl mx-auto rounded-lg shadow-lg max-h-60 overflow-y-auto z-10">
+                {filtered.length > 0 ? (
+                  filtered.map((s) => (
+                    <li
+                      key={s.number}
+                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-black dark:text-white"
+                      onClick={() => handleSelect(s)}
+                    >
+                      {s.englishName}{" "}
+                      <span className="text-gray-500 text-sm">{s.name}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-4 py-2 text-gray-500">No matches found</li>
+                )}
+              </ul>
+            )}
+
             <div className="mt-6 mb-10">
               <Button
                 bgClr="bg-gray-100 dark:bg-[#1f2125]"
                 textClr="text-black dark:text-white"
                 varient="border"
-                click={() => alert("Button Clicked!")}
                 text="Navigate Quran"
               />
             </div>

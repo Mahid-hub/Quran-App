@@ -9,7 +9,7 @@ const NavigationTabs = ({ tabs, activeTab, onTabChange, bgClr, textClr }) => {
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`mt-3 flex items-center space-x-2 py-2 px-5 rounded-full border${
+            className={`mt-3 flex items-center space-x-2 py-1 px-2 md:py-2 md:px-5 rounded-full border${
               activeTab === tab.id
                 ? `border-blue-400 ${textClr} shadow-md`
                 : "border-gray-600 text-gray-400 hover:border-blue-400"

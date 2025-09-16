@@ -25,15 +25,15 @@ function Juz({ bgClr, textClr }) {
 
             results.push({ juzNumber: i, surahs });
             setJuzs([...results]); // update state (append new juz)
-            fetchJuz(i + 1); // fetch next Juz
+            fetchJuz(i + 1);
           })
           .catch((err) => {
             console.error(`Failed to fetch Juz ${i}:`, err);
             fetchJuz(i + 1); // continue even if one fails
           });
-      }, 200); // small delay to avoid rate-limit
+      }, 200);
     }
-    fetchJuz(1); // Start with Juz 1
+    fetchJuz(1);
   }, []);
 
   return (
@@ -46,9 +46,12 @@ function Juz({ bgClr, textClr }) {
           >
             <div className="flex justify-between items-center border-b border-gray-600 mb-5">
               <h2 className="text-lg font-semibold">Juz {juz.juzNumber}</h2>
-              <a href="#" className="text-sm hover:underline">
+              <Link
+                to={`/juz/${juz.juzNumber}`}
+                className="text-sm hover:underline"
+              >
                 Read Juz
-              </a>
+              </Link>
             </div>
 
             <div className="space-y-4">

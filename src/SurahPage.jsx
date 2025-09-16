@@ -1,25 +1,44 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import NavBar from "./components/NavBar.jsx";
+import { useParams, useLocation } from "react-router-dom";
+import NavBar from "./HomePageComponents/NavBar.jsx";
 import Header from "./SurahPageComponents/Header.jsx";
 import NavigationTabs from "./SurahPageComponents/NavigationTabs.jsx";
 import SurahHeader from "./SurahPageComponents/SurahHeader.jsx";
 import Verse from "./SurahPageComponents/Verse.jsx";
-import PageFooter from "./components/PageFooter.jsx";
+import PageFooter from "./HomePageComponents/PageFooter.jsx";
 import ReadingView from "./SurahPageComponents/ReadingView.jsx";
 import NavigatorButtons from "./SurahPageComponents/NavigatorButtons.jsx";
-import Theme from "./components/Theme.jsx";
-import { headerData, tabs, surahs } from "./dummy data/datadummyData.jsx";
+import Theme from "./HomePageComponents/Theme.jsx";
+import { Languages, BookOpen } from "lucide-react";
 
 function SurahPage() {
   const { toggleTheme } = Theme();
   const [activeTab, setActiveTab] = useState("translation");
-
+  const [playingId, setPlayingId] = useState(null);
   //Route
   const { number } = useParams();
+  const location = useLocation();
   const [verses, setVerses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [surahInfo, setSurahInfo] = useState(null);
+  const [currentMeta, setCurrentMeta] = useState({
+    juz: null,
+    page: null,
+    hizb: null,
+  });
+
+  const tabs = [
+    {
+      id: "translation",
+      name: "Translation",
+      icon: <Languages size={18} />,
+    },
+    {
+      id: "reading",
+      name: "Reading",
+      icon: <BookOpen size={18} />,
+    },
+  ];
 
   function getGlobalAyahNumber(surah, ayah) {
     const ayahCounts = [
@@ -71,22 +90,43 @@ function SurahPage() {
               number: a.numberInSurah,
               arabic: a.text,
               translation: translationAyahs[i]?.text || "",
+              juz: a.juz,
+              page: a.page,
+              hizb: a.hizbQuarter,
               globalNumber: globalAyah,
               audioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyah}.mp3`,
             };
           });
           setVerses(merged);
 
+          const pages = [...new Set(arabicAyahs.map((a) => a.page))];
+          const juzSet = [...new Set(arabicAyahs.map((a) => a.juz))];
+          const hizbQuarters = [
+            ...new Set(arabicAyahs.map((a) => a.hizbQuarter)),
+          ];
+
           setSurahInfo({
             number: dataArabic.data.number,
-            nameArabic: dataArabic.data.name, // Arabic name
-            nameEnglish: dataArabic.data.englishName, // English name
-            translation: dataArabic.data.englishNameTranslation,
+            name: dataArabic.data.name,
+            englishName: dataArabic.data.englishName,
+            englishNameTranslation: dataArabic.data.englishNameTranslation,
+            revelationType: dataArabic.data.revelationType,
+            totalPages: pages.length,
+            totalJuz: juzSet.length,
+            totalHizbQuarters: hizbQuarters.length,
             translator: "Muhammad Asad",
+            audioUrl: `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${dataArabic.data.number}.mp3`,
           });
 
           // Save in localStorage
           localStorage.setItem("lastSurah", JSON.stringify(dataArabic.data));
+          if (merged.length > 0) {
+            setCurrentMeta({
+              juz: merged[0].juz,
+              page: merged[0].page,
+              hizb: merged[0].hizb,
+            });
+          }
         }
       } catch (err) {
         console.error("Error fetching surah:", err);
@@ -98,10 +138,100 @@ function SurahPage() {
     fetchSurah();
   }, [number]);
 
-  // Event handlers (placeholder for future features)
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-  };
+  useEffect(() => {
+    if (!verses.length) return;
+
+    let observer;
+    let cleanup = () => {};
+
+    // Defer to next frame to ensure DOM is updated after tab switch
+    const rafId = requestAnimationFrame(() => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.filter((entry) => entry.isIntersecting);
+          if (visible.length > 0) {
+            visible.sort(
+              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+            );
+            const topMost = visible[0];
+            const { juz, page, hizb } = topMost.target.dataset;
+            setCurrentMeta({
+              juz: Number(juz),
+              page: Number(page),
+              hizb: Number(hizb),
+            });
+          }
+        },
+        {
+          threshold: [0, 0.25],
+          root: null,
+          rootMargin: "0px 0px -50% 0px",
+        }
+      );
+
+      const verseEls = document.querySelectorAll(".verse-item");
+      verseEls.forEach((el) => observer.observe(el));
+
+      // Initialize immediately to first verse in view (or first verse)
+      const initEl =
+        Array.from(verseEls).find((el) => {
+          const r = el.getBoundingClientRect();
+          return r.bottom > 0; // at least partially visible
+        }) || verseEls[0];
+      if (initEl) {
+        const { juz, page, hizb } = initEl.dataset;
+        setCurrentMeta({
+          juz: Number(juz),
+          page: Number(page),
+          hizb: Number(hizb),
+        });
+      }
+
+      cleanup = () => observer && observer.disconnect();
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      cleanup();
+    };
+  }, [verses, activeTab]);
+
+  // Scroll to a specific ayah if URL hash is present
+  useEffect(() => {
+    if (!verses.length) return;
+
+    const hash = location.hash || "";
+    if (!hash) return;
+
+    const ayahMatch = hash.match(/^#ayah-(\d+)$/);
+    const globalMatch = hash.match(/^#verse-(\d+)$/);
+
+    let targetId = null;
+    if (ayahMatch) {
+      const ayahInSurah = parseInt(ayahMatch[1], 10);
+      if (!Number.isNaN(ayahInSurah)) {
+        const globalAyah = getGlobalAyahNumber(
+          parseInt(number, 10),
+          ayahInSurah
+        );
+        targetId = `verse-${globalAyah}`;
+      }
+    } else if (globalMatch) {
+      targetId = `verse-${parseInt(globalMatch[1], 10)}`;
+    }
+
+    if (targetId) {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+    }
+  }, [verses, location.hash, number]);
+
+  // Handlers
+  const handleTabChange = (tabId) => setActiveTab(tabId);
 
   return (
     <>
@@ -128,9 +258,11 @@ function SurahPage() {
               <Header
                 bgClr="bg-gray-200 dark:bg-[#1f2125]"
                 textClr="text-black dark:text-white"
-                title={surahInfo.nameEnglish}
-                currentPage={headerData.currentPage}
-                totalPages={headerData.totalPages}
+                title={`${surahInfo.englishName} (${surahInfo.name})`}
+                currentPage={currentMeta.page}
+                currentSurah={surahInfo.number}
+                juz={currentMeta.juz}
+                hizb={currentMeta.hizb}
               />
             )}
 
@@ -146,11 +278,14 @@ function SurahPage() {
               <SurahHeader
                 bgClr="bg-gray-100 dark:bg-[#1F2125]"
                 textClr="text-black dark:text-white"
-                name={surahInfo.nameArabic}
+                name={surahInfo.name}
                 translation={surahInfo.translation}
                 translator={surahInfo.translator}
                 onSurahInfo={() => console.log("Show surah info")}
                 source={`https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${surahInfo.number}.mp3`}
+                id={`surah-${surahInfo.number}`}
+                playingId={playingId}
+                setPlayingId={setPlayingId}
               />
             )}
 
@@ -158,41 +293,44 @@ function SurahPage() {
               {activeTab === "translation" ? (
                 verses.map((verse) => (
                   <Verse
+                    key={verse.number}
+                    className="verse-item"
+                    data-juz={verse.juz}
+                    data-page={verse.page}
+                    data-hizb={verse.hizb}
                     bgClr="bg-gray-100 dark:bg-[#1f2125]"
                     textClr="text-black dark:text-white"
-                    key={verse.number}
                     verseNumber={verse.number}
                     arabicText={verse.arabic}
                     translation={verse.translation}
                     source={verse.audioUrl}
+                    id={`verse-${verse.globalNumber}`}
+                    playingId={playingId}
+                    setPlayingId={setPlayingId}
                     onCopy={() => console.log(`Copy verse ${verse.number}`)}
-                    onBookmark={() =>
-                      console.log(`Bookmark verse ${verse.number}`)
-                    }
                   />
                 ))
               ) : activeTab === "reading" ? (
                 <ReadingView
                   bgClr="bg-gray-100 dark:bg-[#1f2125]"
                   textClr="text-black dark:text-white"
-                  verses={verses.map((v) => v.arabic)}
+                  verses={verses}
                 />
               ) : null}
+            </div>
+            <div>
+              <NavigatorButtons
+                bgClr="bg-gray-100 dark:bg-[#1f2125]"
+                textClr="text-black dark:text-white"
+              />
+            </div>
 
-              <div>
-                <NavigatorButtons
-                  bgClr="bg-gray-100 dark:bg-[#1f2125]"
-                  textClr="text-black dark:text-white"
-                />
-
-                <div>
-                  <PageFooter
-                    bgClr="bg-gray-100 dark:bg-[#1f2125]"
-                    textClr="text-black dark:text-white"
-                    darkMode={toggleTheme}
-                  />
-                </div>
-              </div>
+            <div>
+              <PageFooter
+                bgClr="bg-gray-100 dark:bg-[#1f2125]"
+                textClr="text-black dark:text-white"
+                darkMode={toggleTheme}
+              />
             </div>
           </div>
         </div>

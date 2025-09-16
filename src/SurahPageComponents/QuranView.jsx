@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NavigationTabs from "./NavigationTabs";
 import Verse from "./Verse";
 import ReadingView from "./ReadingView";
-import "../dummy data/datadummyData";
 
 export const QuranView = () => {
   const [activeTab, setActiveTab] = useState("translation");

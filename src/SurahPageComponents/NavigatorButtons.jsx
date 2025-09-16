@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../components/Button";
+import Button from "../HomePageComponents/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
 function NavigatorButtons({ bgClr, textClr }) {
@@ -37,8 +37,6 @@ function NavigatorButtons({ bgClr, textClr }) {
         varient="border"
         bgClr={bgClr}
         textClr={textClr}
-        height="h-12"
-        width="w-44"
         click={goToBeginning}
         className="border border-gray-500 rounded-lg"
       />
@@ -50,8 +48,6 @@ function NavigatorButtons({ bgClr, textClr }) {
           varient="border"
           bgClr={bgClr}
           textClr={textClr}
-          height="h-12"
-          width="w-40"
           click={goToPrevious}
           className="border border-gray-500 rounded-lg"
         />
@@ -64,8 +60,6 @@ function NavigatorButtons({ bgClr, textClr }) {
           varient="border"
           bgClr={bgClr}
           textClr={textClr}
-          height="h-12"
-          width="w-40"
           click={goToNext}
           className="border border-gray-500 rounded-lg"
         />
