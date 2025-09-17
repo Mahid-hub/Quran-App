@@ -10,9 +10,11 @@ import PageFooter from "./HomePageComponents/PageFooter.jsx";
 import ReadingView from "./SurahPageComponents/ReadingView.jsx";
 import Theme from "./HomePageComponents/Theme.jsx";
 import { Languages, BookOpen } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 function JuzPage() {
-  const { toggleTheme } = Theme();
+  const { t, i18n } = useTranslation();
+  const { toggleTheme, darkMode } = Theme();
   const [activeTab, setActiveTab] = useState("translation");
   const [playingId, setPlayingId] = useState(null);
 
@@ -29,12 +31,12 @@ function JuzPage() {
   const tabs = [
     {
       id: "translation",
-      name: "Translation",
+      name: t("Tabs.translation"),
       icon: <Languages size={18} />,
     },
     {
       id: "reading",
-      name: "Reading",
+      name: t("Tabs.reading"),
       icon: <BookOpen size={18} />,
     },
   ];
@@ -201,13 +203,14 @@ function JuzPage() {
       <div className="bg-gray-100 dark:bg-[#1f2125]">
         <div className="max-w-[1440px] mx-auto">
           <NavBar
-            title="Quran.com"
+            title={t("Home.title")}
             bgClr="bg-gray-100 dark:bg-[#1f2125]"
             textClr="text-black dark:text-white"
             icons={["fa-globe", "fa-gear", "fa-magnifying-glass"]}
             onIconClick={(icon) => {
               if (icon === "fa-globe") {
-                alert("Switch Language");
+                const newLang = i18n.language === "en" ? "ur" : "en";
+                i18n.changeLanguage(newLang);
               } else if (icon === "fa-gear") {
                 alert("Open Settings");
               } else if (icon === "fa-magnifying-glass") {
@@ -220,7 +223,7 @@ function JuzPage() {
             <Header
               bgClr="bg-gray-200 dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
-              title={juzNumber ? `Juz ${juzNumber}` : "Juz"}
+              title={juzNumber ? `${t("Juz.title")} ${juzNumber}` : t("Juz.title")}
               currentPage={currentMeta.page}
               currentSurah={surahInfo.number}
               juz={currentMeta.juz}
@@ -295,6 +298,7 @@ function JuzPage() {
               bgClr="bg-gray-100 dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               darkMode={toggleTheme}
+              isDarkMode={darkMode}
             />
           </div>
         </div>

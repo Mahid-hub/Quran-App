@@ -1,0 +1,22 @@
+{
+  "Home": {
+    "title": "قرآن.کوم",
+    "navigateBtn": "قرآن پر جائیں",
+    "readingTitle": "پڑھنا جاری رکھیں",
+    "myQuran": "میرا قرآن",
+    "quranInYear": "ایک سال میں قرآن",
+    "calendar": "کیلنڈر",
+    "loadingAyah": "آج کی آیت لوڈ ہو رہی ہے...",
+    "noMatches": "کوئی نتیجہ نہیں ملا"
+  },
+  "Tabs": {
+    "translation": "ترجمہ",
+    "reading": "قرأت"
+  },
+  "Juz": {
+    "title": "جزء"
+  },
+  "InputField": {
+    "placeholder": "تلاش کریں"
+  }
+}

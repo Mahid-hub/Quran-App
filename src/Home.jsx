@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import NavBar from "./HomePageComponents/NavBar.jsx";
 import InputField from "./HomePageComponents/InputField.jsx";
 import Button from "./HomePageComponents/Button.jsx";
@@ -11,11 +12,23 @@ import PageFooter from "./HomePageComponents/PageFooter.jsx";
 import Theme from "./HomePageComponents/Theme.jsx";
 
 function Home() {
+  const { t, i18n } = useTranslation();
   const [search, setSearch] = useState("");
-  const { toggleTheme } = Theme();
+  const { toggleTheme, darkMode } = Theme();
   const [surahs, setSurahs] = useState([]);
   const [dailyAyah, setDailyAyah] = useState(null);
   const navigate = useNavigate();
+
+  const handleIconClick = (icon) => {
+    if (icon === "fa-globe") {
+      const newLang = i18n.language === "en" ? "ur" : "en";
+      i18n.changeLanguage(newLang);
+    } else if (icon === "fa-gear") {
+      alert("Open Settings");
+    } else if (icon === "fa-magnifying-glass") {
+      alert("Search something");
+    }
+  };
 
   useEffect(() => {
     const fetchSurahs = async () => {
@@ -89,32 +102,24 @@ function Home() {
           {/* Navbar */}
           <div>
             <NavBar
-              title="Quran.com"
+              title={t("Home.title")}
               bgClr="bg-white dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               icons={["fa-globe", "fa-gear", "fa-magnifying-glass"]}
-              onIconClick={(icon) => {
-                if (icon === "fa-globe") {
-                  alert("Switch Language");
-                } else if (icon === "fa-gear") {
-                  alert("Open Settings");
-                } else if (icon === "fa-magnifying-glass") {
-                  alert("Search something");
-                }
-              }}
+              onIconClick={handleIconClick}
             />
           </div>
 
           {/* Input Field */}
           <div className="bg-gray-200 dark:bg-black text-black dark:text-white flex flex-col justify-center items-center">
             <h1 className="text-center text-3xl md:text-5xl font-bold py-8 select-none">
-              Quran.com
+              {t("Home.title")}
             </h1>
             <InputField
               bgClr="bg-white dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               placeholderClr="placeholder:text-gray-500 dark:placeholder:text-gray-400"
-              placeHolder="Search the Surah..."
+              placeHolder={t("InputField.placeholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -134,7 +139,9 @@ function Home() {
                     </li>
                   ))
                 ) : (
-                  <li className="px-4 py-2 text-gray-500">No matches found</li>
+                  <li className="px-4 py-2 text-gray-500">
+                    {t("Home.noMatches")}
+                  </li>
                 )}
               </ul>
             )}
@@ -144,7 +151,7 @@ function Home() {
                 bgClr="bg-gray-100 dark:bg-[#1f2125]"
                 textClr="text-black dark:text-white"
                 varient="border"
-                text="Navigate Quran"
+                text={t("Home.navigateBtn")}
               />
             </div>
           </div>
@@ -153,7 +160,7 @@ function Home() {
           <div className="bg-gray-100 dark:bg-[#1f2125] py-5">
             <div className="flex justify-between px-3">
               <h2 className="font-bold text-2xl md:text-4xl text-black dark:text-white">
-                Continue Reading
+                {t("Home.readingTitle")}
               </h2>
               <Link to={`/surah/1`}>
                 <Button
@@ -162,7 +169,8 @@ function Home() {
                   click={() => console.log("Surah Fatiha...")}
                   text={
                     <>
-                      <i className="fa-regular fa-bookmark"></i> My Quran
+                      <i className="fa-regular fa-bookmark"></i>{" "}
+                      {t("Home.myQuran")}
                     </>
                   }
                   className="text-sm md:text-xl"
@@ -181,7 +189,7 @@ function Home() {
           <div className="bg-gray-100 dark:bg-[#1f2125] py-5">
             <div className="flex justify-between px-3">
               <h2 className="font-bold md:text-3xl text-2xl text-black dark:text-white">
-                Quran in a Year
+                {t("Home.quranInYear")}
               </h2>
               <Button
                 textClr="text-black dark:text-white"
@@ -191,20 +199,27 @@ function Home() {
                 }
                 text={
                   <>
-                    <i className="fa-solid fa-calendar-days"></i> Calendar
+                    <i className="fa-solid fa-calendar-days"></i>{" "}
+                    {t("Home.calendar")}
                   </>
                 }
                 className="text-base md:text-xl"
               />
             </div>
             <div className="p-5">
-              <QuranInYear
-                todayAyah="وَيُسَبِّحُ ٱلرَّعۡدُ بِحَمۡدِهِۦ وَٱلۡمَلَٰٓئِكَةُ مِنۡ خِيفَتِهِۦ وَيُرۡسِلُ ٱلصَّوَٰعِقَ فَيُصِيبُ بِهَا مَن يَشَآءُ وَهُمۡ يُجَٰدِلُونَ فِي ٱللَّهِ وَهُوَ شَدِيدُ ٱلۡمِحَالِ (١٣)"
-                Translation="The thunder glorifies His praises, as do the angels in awe of Him. He sends thunderbolts, striking with them whoever He wills. Yet they dispute about Allah. And He is tremendous in might."
-                Refrence="— Dr. Mustafa Khattab, The Clear Quran"
-                bgClr="bg-gray-200 dark:bg-[#1f2125]"
-                textClr="text-black dark:text-white"
-              />
+              {dailyAyah ? (
+                <QuranInYear
+                  todayAyah={dailyAyah.arabic}
+                  Translation={dailyAyah.english}
+                  Refrence={dailyAyah.reference}
+                  bgClr="bg-gray-200 dark:bg-[#1f2125]"
+                  textClr="text-black dark:text-white"
+                />
+              ) : (
+                <p className="text-center text-gray-500 dark:text-gray-400">
+                  {t("Home.loadingAyah")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -222,6 +237,7 @@ function Home() {
               bgClr="bg-gray-200 dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               darkMode={toggleTheme}
+              isDarkMode={darkMode}
             />
           </div>
         </div>

@@ -11,7 +11,7 @@ function Theme() {
   }, [darkMode]);
 
   const toggleTheme = () => setDarkMode(!darkMode);
-  return { toggleTheme };
+  return { toggleTheme, darkMode };
 }
 
 export default Theme;

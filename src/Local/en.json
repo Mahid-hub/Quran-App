@@ -1,0 +1,22 @@
+{
+  "Home": {
+    "title": "Quran.com",
+    "navigateBtn": "Navigate Quran",
+    "readingTitle": "Continue Reading",
+    "myQuran": "My Quran",
+    "quranInYear": "Quran in a Year",
+    "calendar": "Calendar",
+    "loadingAyah": "Loading today’s Ayah...",
+    "noMatches": "No matches found"
+  },
+  "Tabs": {
+    "translation": "Translation",
+    "reading": "Reading"
+  },
+  "Juz": {
+    "title": "Juz"
+  },
+  "InputField": {
+    "placeholder": "Search"
+  }
+}
