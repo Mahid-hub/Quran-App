@@ -150,7 +150,11 @@ function PageFooter({ bgClr, textClr, darkMode }) {
             />
             {language && (
               <div className="absolute bottom-full mb-2 right-0">
-                <Languages bgClr={bgClr} textClr={textClr} />
+                <Languages
+                  bgClr={bgClr}
+                  textClr={textClr}
+                  onSelected={() => setLanguage(false)}
+                />
               </div>
             )}
           </div>
