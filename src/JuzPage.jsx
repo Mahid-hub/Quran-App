@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 function JuzPage() {
   const { t, i18n } = useTranslation();
-  const { toggleTheme } = Theme();
+  const { toggleTheme, darkMode } = Theme();
   const [activeTab, setActiveTab] = useState("translation");
   const [playingId, setPlayingId] = useState(null);
 
@@ -298,6 +298,7 @@ function JuzPage() {
               bgClr="bg-gray-100 dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               darkMode={toggleTheme}
+              isDarkMode={darkMode}
             />
           </div>
         </div>

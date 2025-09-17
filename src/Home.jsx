@@ -14,7 +14,7 @@ import Theme from "./HomePageComponents/Theme.jsx";
 function Home() {
   const { t, i18n } = useTranslation();
   const [search, setSearch] = useState("");
-  const { toggleTheme } = Theme();
+  const { toggleTheme, darkMode } = Theme();
   const [surahs, setSurahs] = useState([]);
   const [dailyAyah, setDailyAyah] = useState(null);
   const navigate = useNavigate();
@@ -139,7 +139,9 @@ function Home() {
                     </li>
                   ))
                 ) : (
-                  <li className="px-4 py-2 text-gray-500">{t("Home.noMatches")}</li>
+                  <li className="px-4 py-2 text-gray-500">
+                    {t("Home.noMatches")}
+                  </li>
                 )}
               </ul>
             )}
@@ -167,7 +169,8 @@ function Home() {
                   click={() => console.log("Surah Fatiha...")}
                   text={
                     <>
-                      <i className="fa-regular fa-bookmark"></i> {t("Home.myQuran")}
+                      <i className="fa-regular fa-bookmark"></i>{" "}
+                      {t("Home.myQuran")}
                     </>
                   }
                   className="text-sm md:text-xl"
@@ -196,20 +199,27 @@ function Home() {
                 }
                 text={
                   <>
-                    <i className="fa-solid fa-calendar-days"></i> {t("Home.calendar")}
+                    <i className="fa-solid fa-calendar-days"></i>{" "}
+                    {t("Home.calendar")}
                   </>
                 }
                 className="text-base md:text-xl"
               />
             </div>
             <div className="p-5">
-              <QuranInYear
-                todayAyah="وَيُسَبِّحُ ٱلرَّعۡدُ بِحَمۡدِهِۦ وَٱلۡمَلَٰٓئِكَةُ مِنۡ خِيفَتِهِۦ وَيُرۡسِلُ ٱلصَّوَٰعِقَ فَيُصِيبُ بِهَا مَن يَشَآءُ وَهُمۡ يُجَٰدِلُونَ فِي ٱللَّهِ وَهُوَ شَدِيدُ ٱلۡمِحَالِ (١٣)"
-                Translation="The thunder glorifies His praises, as do the angels in awe of Him. He sends thunderbolts, striking with them whoever He wills. Yet they dispute about Allah. And He is tremendous in might."
-                Refrence="— Dr. Mustafa Khattab, The Clear Quran"
-                bgClr="bg-gray-200 dark:bg-[#1f2125]"
-                textClr="text-black dark:text-white"
-              />
+              {dailyAyah ? (
+                <QuranInYear
+                  todayAyah={dailyAyah.arabic}
+                  Translation={dailyAyah.english}
+                  Refrence={dailyAyah.reference}
+                  bgClr="bg-gray-200 dark:bg-[#1f2125]"
+                  textClr="text-black dark:text-white"
+                />
+              ) : (
+                <p className="text-center text-gray-500 dark:text-gray-400">
+                  {t("Home.loadingAyah")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -227,6 +237,7 @@ function Home() {
               bgClr="bg-gray-200 dark:bg-[#1f2125]"
               textClr="text-black dark:text-white"
               darkMode={toggleTheme}
+              isDarkMode={darkMode}
             />
           </div>
         </div>

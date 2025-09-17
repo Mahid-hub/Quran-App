@@ -3,7 +3,7 @@ import Button from "./Button";
 import Languages from "./Languages";
 import { Link } from "react-router-dom";
 
-function PageFooter({ bgClr, textClr, darkMode }) {
+function PageFooter({ bgClr, textClr, darkMode, isDarkMode }) {
   const [language, setLanguage] = useState(false);
   return (
     <footer
@@ -138,7 +138,7 @@ function PageFooter({ bgClr, textClr, darkMode }) {
             textClr="text-white dark:text-black"
             varient="border"
             click={darkMode}
-            text="Theme Change"
+            text={isDarkMode ? "Light Mode" : "Dark Mode"}
           />
           <div className="relative">
             <Button
