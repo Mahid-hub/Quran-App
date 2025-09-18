@@ -44,12 +44,9 @@ function Juz({ bgClr, textClr }) {
             key={juz.juzNumber}
             className={`${bgClr} h-fit rounded-md p-2 sm:p-6`}
           >
-            <div className="flex justify-between items-center border-b border-gray-600 mb-5">
+            <div className="flex justify-between items-center border-b border-gray-600 mb-5 hover:underline">
               <h2 className="text-lg font-semibold">Juz {juz.juzNumber}</h2>
-              <Link
-                to={`/juz/${juz.juzNumber}`}
-                className="text-sm hover:underline"
-              >
+              <Link to={`/juz/${juz.juzNumber}`} className="text-sm">
                 Read Juz
               </Link>
             </div>
