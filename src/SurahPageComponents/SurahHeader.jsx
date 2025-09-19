@@ -52,9 +52,9 @@ const SurahHeader = ({
           <p className="text-gray-400">Translation by</p>
 
           {translator}
-          <span className="text-[#2ca4ab] ml-1 cursor-pointer hover:underline">
+          {/* <span className="text-[#2ca4ab] ml-1 cursor-pointer hover:underline">
             (Change)
-          </span>
+          </span> */}
         </div>
         <div className="md:flex space-x-4 text-right text-[0.7rem]">
           <button
